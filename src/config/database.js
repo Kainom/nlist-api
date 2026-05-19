@@ -2,18 +2,18 @@ const { MongoClient } = require("mongodb");
 
 const uri = process.env.MONGODB_URI;
 
-if (!uri) {
-  throw new Error("MONGODB_URI not set");
-}
-
 let client;
-let promise;
+let clientPromise;
 
-if (!global._mongo) {
+if (!global._mongoClientPromise) {
+
   client = new MongoClient(uri);
-  global._mongo = client.connect();
+
+  global._mongoClientPromise =
+    client.connect();
+
 }
 
-promise = global._mongo;
+clientPromise = global._mongoClientPromise;
 
-module.exports = promise;
+module.exports = clientPromise;

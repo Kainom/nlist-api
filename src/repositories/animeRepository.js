@@ -48,3 +48,18 @@ exports.delete = async (id, userId) => {
     userId,
   });
 };
+
+exports.search = async (userId, query) => {
+  const collection = await col();
+
+  return collection
+    .find({
+      userId,
+      title: {
+        $regex: query,
+        $options: "i"
+      }
+    })
+    .limit(8)
+    .toArray();
+};

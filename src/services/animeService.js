@@ -55,3 +55,16 @@ exports.remove = async (id, userId) => {
   }
 
 };
+
+exports.search = async (userId, query) => {
+  if (!query || !query.trim()) {
+    return [];
+  }
+
+  const result = await repo.search(
+    userId,
+    query.trim()
+  );
+
+  return result.map(toPublic);
+};
