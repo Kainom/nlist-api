@@ -18,7 +18,7 @@ exports.findAllByUser = async (userId, { page, limit }) => {
 
   const data = await collection
     .find({ userId })
-    .sort({ createdAt: -1 })
+    .sort({ _id: -1 })
     .skip(skip)
     .limit(limit)
     .toArray();

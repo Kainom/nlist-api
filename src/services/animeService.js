@@ -13,7 +13,7 @@ exports.create = async (data) => {
   };
 };
 
-exports.getAll = async (userId, { page = 1, limit = 10 }) => {
+exports.getAll = async (userId, { page = 1, limit = 8 }) => {
   const { data, total } = await repo.findAllByUser(userId, {
     page,
     limit,

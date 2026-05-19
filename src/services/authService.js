@@ -17,7 +17,6 @@ exports.register = async (email, password) => {
 
 exports.login = async (email, password) => {
     const user = await userRepo.findByEmail(email);
-    console.log(user)
     if (!user) throw new Error("INVALID_CREDENTIALS");
 
     const valid = await comparePassword(password, user.password);
