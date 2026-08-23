@@ -1,9 +1,16 @@
 const { verifyToken } = require("../utils/jwt");
 
 module.exports = (req) => {
-  const auth = req.headers.authorization;
-  if (!auth) throw new Error("NO_TOKEN");
+  const header = req.headers.authorization || "";
+  const [scheme, token] = header.split(" ");
 
-  const token = auth.split(" ")[1];
-  return verifyToken(token);
+  if (scheme !== "Bearer" || !token) throw new Error("NO_TOKEN");
+
+  try {
+    return verifyToken(token);
+  } catch (e) {
+    throw new Error(
+      e.name === "TokenExpiredError" ? "TOKEN_EXPIRED" : "INVALID_TOKEN"
+    );
+  }
 };

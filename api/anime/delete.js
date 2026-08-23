@@ -1,4 +1,5 @@
 const applyCors = require("../../src/utils/cors");
+const sendError = require("../../src/utils/sendError");
 
 const service = require("../../src/services/animeService");
 const auth = require("../../src/middlewares/authMiddleware");
@@ -16,6 +17,6 @@ module.exports = async (req, res) => {
 
     res.status(204).end();
   } catch (e) {
-    res.status(404).json({ error: e.message });
+    sendError(res, e);
   }
 };

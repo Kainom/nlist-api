@@ -2,6 +2,7 @@
 const service = require("../../src/services/animeService");
 const auth = require("../../src/middlewares/authMiddleware");
 const applyCors = require("../../src/utils/cors");
+const sendError = require("../../src/utils/sendError");
 
 module.exports = async (req, res) => {
   if (applyCors(req, res)) return; // 🔥 preflight
@@ -16,6 +17,6 @@ module.exports = async (req, res) => {
 
     res.status(200).json(result);
   } catch (e) {
-    res.status(404).json({ error: e.message });
+    sendError(res, e);
   }
 };

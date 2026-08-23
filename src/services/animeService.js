@@ -1,6 +1,12 @@
 
+const { ObjectId } = require("mongodb");
 const repo = require("../repositories/animeRepository");
 const { createAnime, updateAnime, toPublic } = require("../models/animeModel");
+
+// id inválido faria new ObjectId() estourar e virar 500
+const assertId = (id) => {
+  if (!ObjectId.isValid(id)) throw new Error("INVALID_ID");
+};
 
 exports.create = async (data) => {
   const anime = createAnime(data);
@@ -29,6 +35,8 @@ exports.getAll = async (userId, { page = 1, limit = 8 }) => {
 };
 
 exports.getById = async (id, userId) => {
+  assertId(id);
+
   const anime = await repo.findById(id, userId);
 
   if (!anime) throw new Error("NOT_FOUND");
@@ -37,6 +45,8 @@ exports.getById = async (id, userId) => {
 };
 
 exports.update = async (id, userId, data) => {
+  assertId(id);
+
   const existing = await repo.findById(id, userId);
   if (!existing) throw new Error("NOT_FOUND");
 
@@ -48,6 +58,8 @@ exports.update = async (id, userId, data) => {
 };
 
 exports.remove = async (id, userId) => {
+  assertId(id);
+
   const result = await repo.delete(id, userId);
 
   if (result.deletedCount === 0) {
